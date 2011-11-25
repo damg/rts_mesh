@@ -13,3 +13,6 @@ all: $(HEXES)
 
 flash: $(HEXES)
 	avrdude -p m8 -c avrisp2 -Pusb -U flash:w:$(HEX)
+
+clean:
+	$(RM) *~ *.o *.elf *.hex
