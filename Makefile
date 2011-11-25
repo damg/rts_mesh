@@ -1,19 +1,23 @@
-#avr-gcc -mmcu=atmega8 -o hello.elf hello.c
-#avr-objcopy -R .eeprom -0 ihex hello.elf hello.hex
-#avrdude -p m8 -c avrisp2 -Pusb -U flash:w:hello.hex 
-
 TARGET=mesh.hex
 OBJECTS=main.o
 
-CFLAGS=-Wall -Wextra -Werror
+RFM12BASEDIR=rfm12-1.1
+RFM12LIBDIR=$(RFM12BASEDIR)/src
+RFM12LIB=$(RFM12LIBDIR)/librfm12.a
+
+CFLAGS=-Wall -Wextra -Werror -I$(RFM12LIBDIR) -I$(RFM12LIBDIR)/include
+LDFLAGS=-L$(RFM12LIBDIR) -lrfm12
 
 all: $(TARGET)
+
+$(RFM12LIB):
+	$(MAKE) -C $(RFM12BASEDIR)/
 
 %.o: %.c
 	avr-gcc $(CFLAGS) -mmcu=atmega8 -c $<
 
-$(TARGET:.hex=.elf): $(OBJECTS)
-	avr-gcc $(CFLAGS) -mmcu=atmega8 -o $@ $^
+$(TARGET:.hex=.elf): $(RFM12LIB) $(OBJECTS)
+	avr-gcc -mmcu=atmega8 -o $@ $(^:$(RFM12LIB)=) $(LDFLAGS)
 
 $(TARGET): $(TARGET:.hex=.elf)
 	avr-objcopy -R .eeprom -O ihex $< $@
@@ -26,3 +30,7 @@ erase:
 
 clean:
 	$(RM) *~ *.o *.elf *.hex
+	$(MAKE) -C rfm12-1.1 clean
+
+
+.PHONY: $(RFM12LIB) clean all erase flash
