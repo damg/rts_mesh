@@ -2,17 +2,27 @@
 #avr-objcopy -R .eeprom -0 ihex hello.elf hello.hex
 #avrdude -p m8 -c avrisp2 -Pusb -U flash:w:hello.hex 
 
-HEXES=blinky.hex
+TARGET=mesh.hex
+OBJECTS=main.o
 
-all: $(HEXES)
+CFLAGS=-Wall -Wextra -Werror
 
-%.hex: %.elf
+all: $(TARGET)
+
+%.o: %.c
+	avr-gcc $(CFLAGS) -mmcu=atmega8 -c $<
+
+$(TARGET:.hex=.elf): $(OBJECTS)
+	avr-gcc $(CFLAGS) -mmcu=atmega8 -o $@ $^
+
+$(TARGET): $(TARGET:.hex=.elf)
 	avr-objcopy -R .eeprom -O ihex $< $@
-%.elf: %.c
-	avr-gcc -mmcu=atmega8 -o $@ $<
 
-flash: $(HEXES)
-	avrdude -p m8 -c avrisp2 -Pusb -U flash:w:$(HEX)
+flash: $(TARGET)
+	su -c "avrdude -p m8 -c avrisp2 -Pusb -U flash:w:$(TARGET)"
+
+erase:
+	su -c "avrdude -p m8 -c avrisp2 -Pusb -e"
 
 clean:
 	$(RM) *~ *.o *.elf *.hex
