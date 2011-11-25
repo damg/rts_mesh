@@ -4,18 +4,13 @@ int
 main(void)
 {
   int i;
-  DDRB = 0xFF;
-  DDRC = 0xFF;
   DDRD = 0xFF;
+  PORTD = 0x55;
   while(1)
     {
-      PORTB = 1;
-      PORTC = 1;
-      PORTD = 1;
+      PORTD = 0x55;
       for(i = 0; i < 15000; ++i);
-      PORTB = 0;
-      PORTC = 0;
-      PORTD = 0;
+      PORTD = 0xCC;
       for(i = 0; i < 15000; ++i);
     }
 
