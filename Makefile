@@ -1,5 +1,5 @@
 TARGET=mesh.hex
-OBJECTS=main.o
+OBJECTS=main.o usart.o
 
 RFM12BASEDIR=rfm12-1.1
 RFM12LIBDIR=$(RFM12BASEDIR)/src
