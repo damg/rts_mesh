@@ -4,6 +4,7 @@ OBJECTS=main.o
 RFM12BASEDIR=rfm12-1.1
 RFM12LIBDIR=$(RFM12BASEDIR)/src
 RFM12LIB=$(RFM12LIBDIR)/librfm12.a
+RFM12CONFIG=$(RFM12LIBDIR)/rfm12_config.h
 
 CFLAGS=-Wall -Wextra -Werror -I$(RFM12LIBDIR) -I$(RFM12LIBDIR)/include
 LDFLAGS=-L$(RFM12LIBDIR) -lrfm12
@@ -13,7 +14,7 @@ all: $(TARGET)
 $(RFM12LIB):
 	$(MAKE) -C $(RFM12BASEDIR)/
 
-%.o: %.c
+%.o: %.c $(RFM12CONFIG)
 	avr-gcc $(CFLAGS) -mmcu=atmega8 -c $<
 
 $(TARGET:.hex=.elf): $(RFM12LIB) $(OBJECTS)

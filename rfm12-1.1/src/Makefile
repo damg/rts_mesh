@@ -15,7 +15,7 @@ $(TARGET): $(OBJECTS)
 	$(RM) $@
 	$(AR) rs $@ $^
 
-%.o: %.c
+%.o: %.c rfm12_config.h
 	$(CC) $(CFLAGS) $(DEFINES) -c $<
 
 clean:

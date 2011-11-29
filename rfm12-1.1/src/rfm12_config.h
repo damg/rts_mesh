@@ -45,7 +45,6 @@
 	nSEL            | Slave select pin defined below
 */
 
-
 /************************
  * PIN DEFINITIONS
  */
