@@ -11,7 +11,8 @@
 
 #include "usart.h"
 
-#define FOSC 3686400UL
+//#define FOSC 3686400UL
+#define FOSC 10000000UL
 #define BAUD9600 9600UL
 
 int
