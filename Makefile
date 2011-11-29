@@ -30,7 +30,7 @@ erase:
 	su -c "avrdude -p m8 -c avrisp2 -Pusb -e"
 
 clean:
-	$(RM) *~ *.o *.elf *.hex
+	$(RM) $(OBJECTS) $(TARGET)
 	$(MAKE) -C rfm12-1.1 clean
 
 

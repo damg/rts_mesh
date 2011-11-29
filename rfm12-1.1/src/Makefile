@@ -19,4 +19,4 @@ $(TARGET): $(OBJECTS)
 	$(CC) $(CFLAGS) $(DEFINES) -c $<
 
 clean:
-	$(RM) $(TARGET) $(OBJECTS) *~
+	$(RM) $(TARGET) $(OBJECTS) 
