@@ -1,7 +1,5 @@
-SUBDIRS=src
-
 all:
-	for d in $(SUBDIRS); do $(MAKE) -C $$d; done
+	$(MAKE) -C src
 
 clean:
-	for d in $(SUBDIRS); do $(MAKE) -C $$d clean; done
+	$(MAKE) -C src clean

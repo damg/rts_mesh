@@ -3,3 +3,8 @@
 *.elf
 *.hex
 *.a
+*.avrsuo
+**/Debug
+**/Release
+Release
+Debug
