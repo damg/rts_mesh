@@ -15,7 +15,7 @@
     </ToolchainDirPath>
     <MakeDirPath>
     </MakeDirPath>
-    <GlobalToolchainPath>C:\Program Files (x86)\Atmel\AVR Studio 5.0\AVR ToolChain\bin</GlobalToolchainPath>
+    <GlobalToolchainPath>C:\Programme\Atmel\AVR Studio 5.0\AVR ToolChain\bin</GlobalToolchainPath>
     <AvrGccProjectExtensions>
     </AvrGccProjectExtensions>
     <AssemblyName>rts_net</AssemblyName>
@@ -33,9 +33,8 @@
           </ListValues>
         </avrgcc.compiler.symbols.DefSymbols>
         <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
-        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
-        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
         <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+        <avrgcc.compiler.miscellaneous.Verbose>True</avrgcc.compiler.miscellaneous.Verbose>
       </AvrGcc>
     </ToolchainSettings>
     <MemorySettings>
@@ -55,14 +54,28 @@
       <AvrGcc>
         <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
         <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
-        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+        <avrgcc.compiler.symbols.DefSymbols>
+          <ListValues>
+            <Value>F_CPU=12000000</Value>
+            <Value>RFM12_UART_DEBUG=2</Value>
+          </ListValues>
+        </avrgcc.compiler.symbols.DefSymbols>
+        <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
         <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+        <avrgcc.compiler.optimization.UseShortCalls>True</avrgcc.compiler.optimization.UseShortCalls>
         <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
         <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+        <avrgcc.compiler.warnings.Pedantic>True</avrgcc.compiler.warnings.Pedantic>
+        <avrgcc.compiler.warnings.PedanticWarningsAsErrors>True</avrgcc.compiler.warnings.PedanticWarningsAsErrors>
         <avrgcc.assembler.debugging.DebugLevel>Default (-g2)</avrgcc.assembler.debugging.DebugLevel>
       </AvrGcc>
     </ToolchainSettings>
     <MemorySettings>
+      <MemorySegments>
+        <InitialStack IsEnabled="0">
+          <Address>0x400</Address>
+        </InitialStack>
+      </MemorySegments>
     </MemorySettings>
     <GenerateHexFile>True</GenerateHexFile>
     <GenerateMapFile>True</GenerateMapFile>
@@ -79,17 +92,33 @@
     <Compile Include="protocol.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="rfm12.c">
+    <Compile Include="rfm12-1.1\src\include\rfm12_core.h">
+      <SubType>compile</SubType>
+      <Link>rfm12_core.h</Link>
+    </Compile>
+    <Compile Include="rfm12-1.1\src\include\rfm12_ctrl.h">
+      <SubType>compile</SubType>
+      <Link>rfm12_ctrl.h</Link>
+    </Compile>
+    <Compile Include="rfm12-1.1\src\include\rfm12_extra.h">
+      <SubType>compile</SubType>
+      <Link>rfm12_extra.h</Link>
+    </Compile>
+    <Compile Include="rfm12-1.1\src\include\rfm12_hw.h">
+      <SubType>compile</SubType>
+      <Link>rfm12_hw.h</Link>
+    </Compile>
+    <Compile Include="rfm12-1.1\src\rfm12.c">
       <SubType>compile</SubType>
       <Link>rfm12.c</Link>
     </Compile>
-    <Compile Include="rfm12.h">
+    <Compile Include="rfm12-1.1\src\rfm12.h">
       <SubType>compile</SubType>
       <Link>rfm12.h</Link>
     </Compile>
-    <Compile Include="rfm12_config.h">
+    <Compile Include="rfm12_config_rts.h">
       <SubType>compile</SubType>
-      <Link>rfm12_config.h</Link>
+      <Link>rfm12_config_rts.h</Link>
     </Compile>
     <Compile Include="rts_net.c">
       <SubType>compile</SubType>

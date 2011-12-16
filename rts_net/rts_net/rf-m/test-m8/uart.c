@@ -7,14 +7,10 @@
 
 #include "uart.h"
 
-#ifdef UART_LEDS
-	#include "io_avrfnkbrd.h"
-#endif
-
-#define UART_BAUD_RATE	19200
-#define UART_INTERRUPT	1
-#define UART_RXBUFSIZE	10
-#define UART_TXBUFSIZE	50
+#define UART_BAUD_RATE 19200
+//#define UART_INTERRUPT
+#define UART_RXBUFSIZE 50
+#define UART_TXBUFSIZE 50
 
 
 #define UART_BAUD_CALC(UART_BAUD_RATE,F_OSC) ((F_OSC)/((UART_BAUD_RATE)*16L)-1)
@@ -29,7 +25,7 @@ volatile static char *volatile txhead, *volatile txtail;
 
 SIGNAL(SIG_UART_DATA) {
 #ifdef UART_LEDS	
-	LED1_ON;
+	PORTC ^= 0x01;
 #endif
 	
 	if ( txhead == txtail ) {
@@ -44,7 +40,7 @@ SIGNAL(SIG_UART_RECV) {
 	int diff; 
 
 #ifdef UART_LEDS
-	LED2_ON;
+	PORTC ^= 0x02;
 #endif
 	
 	/* buffer full? */
@@ -63,12 +59,12 @@ SIGNAL(SIG_UART_RECV) {
 
 
 void uart_init() {
-	//PORTD |= 0x01;					//Pullup an RXD an
+	PORTD |= 0x01;				//Pullup an RXD an
 
-	UCSRB |= (1<<TXEN);					//UART TX einschalten
+	UCSRB |= (1<<TXEN);			//UART TX einschalten
 	UCSRC |= (1<<URSEL)|(3<<UCSZ0);		//Asynchron 8N1
 
-	UCSRB |= ( 1 << RXEN );				//Uart RX einschalten
+	UCSRB |= ( 1 << RXEN );			//Uart RX einschalten
 
 	UBRRH=(uint8_t)(UART_BAUD_CALC(UART_BAUD_RATE,F_CPU)>>8);
 	UBRRL=(uint8_t)(UART_BAUD_CALC(UART_BAUD_RATE,F_CPU));
@@ -164,12 +160,10 @@ char uart_getc()
 #ifdef UART_INTERRUPT
 char uart_getc_nb(char *c)
 {
-	if (rxhead==rxtail) 
-		return 0;
+	if (rxhead==rxtail) return 0;
 
 	*c = *rxtail;
- 	if (++rxtail == (rxbuf + UART_RXBUFSIZE)) 
-		rxtail = rxbuf;
+ 	if (++rxtail == (rxbuf + UART_RXBUFSIZE)) rxtail = rxbuf;
 
 	return 1;
 }
@@ -184,47 +178,3 @@ char uart_getc_nb(char *c)
 	return 0;
 }
 #endif // UART_INTERRUPT
-
-uint8_t uart_getline( char* pBuffer, uint8_t maxSize )
-{
-	char ch;
-	uint8_t count = 0;
-	
-	*pBuffer = 0;
-	
-	while ( ( ch = uart_getc() ) && ( ch != '\r' ) && ( maxSize > 0 ) )
-	{
-		*pBuffer = ch;
-		pBuffer++;
-		count++;
-		maxSize--;
-	}
-	pBuffer[maxSize-1] = 0;
-	
-	return count;
-}
-
-uint8_t uart_getline_nb( char* pBuffer )
-{
-	char* pB = pBuffer;
-	*pB = 0; 
-	
-	while ( uart_getc_nb(pB) && (*pB != '\r') )
-	{
-		pB++;
-	}
-	
-	return (uint8_t)( pB - pBuffer );
-}
-
-uint8_t uart_collectline( char* pBuffer, uint8_t* iPos )
-{
-	pBuffer += (char)(*iPos);
-	
-	while ( ( uart_getc_nb(pBuffer) > 0 ) && (*pBuffer != '\r') )
-	{
-		pBuffer++;
-	}
-	
-	return (*pBuffer == '\r');
-} 

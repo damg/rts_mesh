@@ -1,6 +1,11 @@
 #ifndef __AVR_FUNKBOARD_ID_HEADER__
 #define __AVR_FUNKBOARD_ID_HEADER__
 
+// allgemeine Definitionen
+#define FALSE				0
+#define TRUE				!FALSE
+#define BOOL				uint8_t
+
 // Definition der IO's des AVR-Funktboards
 
 #define INIT_LED			DDRD |= ((1 << PD5) | (1 << PD6));			

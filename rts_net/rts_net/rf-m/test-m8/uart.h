@@ -4,7 +4,7 @@
 /**
  * UART Library
  *
- * #define F_CPU 12000000         // Oszillator-Frequenz in Hz
+ * #define F_CPU 16000000         // Oszillator-Frequenz in Hz
  * #define UART_INTERRUPT 1
  * #define UART_BAUD_RATE 19200
  * #define UART_RXBUFSIZE 16
@@ -30,10 +30,6 @@ char uart_getc_nb(char *c);		// returns 1 on success
 //get one Cariage return terminated line
 //echo charakters back on Uart
 //returns buffer with zero terminated line on success, 0 pointer otherwise
-uint8_t uart_getline_nb( char* pBuffer );
-
-uint8_t uart_collectline( char* pBuffer, uint8_t* iPos );
-uint8_t uart_getline( char* pBuffer, uint8_t maxSize );
+char * uart_getline_nb();
 
 #endif
-
